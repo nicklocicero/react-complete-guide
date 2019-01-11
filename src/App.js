@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person.js'
-import UserOutput from './UserOutput/UserOutput'
-import UserInput from './UserInput/UserInput';
 
 class App extends Component {
   // state updates the dom when changed, re-renders page
   state = {
     persons: [
-      { name: 'Dayton', age: 31 },
-      { name: 'Denver', age: 29 },
-      { name: 'Darver', age: 32}
+      { id: 'asda', name: 'Dayton', age: 31 },
+      { id: 'afdonsoif', name: 'Darver', age: 32},
+      { id: 'asdfa', name: 'Denver', age: 29 }
     ],
     username: 'noel',
     showPersons: true
@@ -37,16 +35,11 @@ class App extends Component {
     });
   }
 
-  changeUsernameHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: 'Dayton', age: 31 },
-        { name: 'Denver', age: 29 },
-        { name: 'Darver', age: 32}
-      ],
-      username: event.target.value
-    })
-  } 
+  deletePersonHandler = (personIndex) => {
+    const persons = this.state.persons.slice();
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
+  }
 
   togglePersonsHandler = () => {
       const doesShow = this.state.showPersons;
@@ -67,11 +60,13 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map(person => {
+          {this.state.persons.map((person, index) => {
             return (
               <Person
+                click={() => this.deletePersonHandler(index)}
                 name={person.name}
-                age={person.age} />
+                age={person.age} 
+                key={person.id} />
             )
           })}
           {/* <Person 
